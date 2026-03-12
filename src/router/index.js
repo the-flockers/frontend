@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Learn from '../views/Learn.vue'
 import News from '../views/News.vue'
@@ -28,7 +28,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/frontend/'),
+  history: createWebHashHistory('/frontend/'),
   routes
 })
 
