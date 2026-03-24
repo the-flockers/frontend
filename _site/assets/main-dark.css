@@ -1,5 +1,5 @@
 /**
- * Dark theme variables
+ * Catppuccin Mocha override
  */
 /**
  * Style variables
@@ -420,32 +420,32 @@ pre {
   color: var(--code-color-14);
 } /* Literal.Number.Integer.Long */
 :root {
-  --base-color: #DBDBDB;
-  --border: dashed 1px rgba(219, 219, 219, 0.9);
-  --selection-background: rgba(219, 219, 219, 0.99);
-  --selection-text: #000;
-  --background-color: #000;
+  --base-color: #cdd6f4;
+  --border: dashed 1px rgba(205, 214, 244, 0.6);
+  --selection-background: rgba(245, 224, 220, 0.35);
+  --selection-text: #1e1e2e;
+  --background-color: #1e1e2e;
   --text-color: var(--base-color);
-  --placeholder-color: var(--base-color);
-  --link-color: var(--base-color);
-  --code-color-1: #aaaaaa;
-  --code-color-2: #ffffcc;
-  --code-color-3: #F00000;
-  --code-color-4: #F0A0A0;
-  --code-color-5: #b38aff;
-  --code-color-6: #5ba711;
-  --code-color-7: #e4e477;
-  --code-color-8: #000080;
-  --code-color-9: #05ca05;
-  --code-color-10: #888888;
-  --code-color-11: #555555;
-  --code-color-12: #800080;
-  --code-color-13: #00d4d4;
-  --code-color-14: #00c1c1;
-  --code-color-15: #ed9d13;
-  --code-color-16: #1e90ff;
-  --code-color-17: #800000;
-  --code-color-18: #bbbbbb;
+  --placeholder-color: #a6adc8;
+  --link-color: #89b4fa;
+  --code-color-1: #6c7086;
+  --code-color-2: #313244;
+  --code-color-3: #f38ba8;
+  --code-color-4: #45475a;
+  --code-color-5: #cba6f7;
+  --code-color-6: #a6e3a1;
+  --code-color-7: #f38ba8;
+  --code-color-8: #89b4fa;
+  --code-color-9: #a6e3a1;
+  --code-color-10: #7f849c;
+  --code-color-11: #6c7086;
+  --code-color-12: #f5c2e7;
+  --code-color-13: #94e2d5;
+  --code-color-14: #fab387;
+  --code-color-15: #f9e2af;
+  --code-color-16: #89b4fa;
+  --code-color-17: #f2cdcd;
+  --code-color-18: #585b70;
 }
 
 /*# sourceMappingURL=main-dark.css.map */
