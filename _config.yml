@@ -34,8 +34,8 @@ plugins:
 
 header_pages:
   - index.md
-  - about.md
-  - test.md
+  - nav/about.md
+  - nav/learn.md
 
 disable_google_fonts: true
 
