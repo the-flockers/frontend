@@ -1,3 +1,8 @@
+---
+layout: page
+title: About
+permalink: /diddle/
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
