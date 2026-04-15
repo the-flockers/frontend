@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Diego ALPR Map (Deflock Style)</title>
+
+    <!-- Leaflet -->
+    <!-- Should be changed later; people might block outside imports -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .loading {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-family: sans-serif;
+            z-index: 1000;
+        }
+
+        /* Disables click main transparent wrapper squares */
+        .leaflet-marker-icon.leaflet-interactive:not(.marker-cluster),
+        .svgMarker {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        /* Enable click only on the actual drawn SVG paths */
+        .someSVGpath {
+            pointer-events: all;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading" class="loading">Fetching ALPR data from Overpass...</div>
+    <div id="map"></div>
+
+    <script>
+        const MARKER_COLOR = '#0080BC';
+
+        const CARDINAL_DIRECTIONS = {
+            N: 0, NNE: 22.5, NE: 45, ENE: 67.5, E: 90, ESE: 112.5, SE: 135,
+            SSE: 157.5, S: 180, SSW: 202.5, SW: 225, WSW: 247.5, W: 270,
+            WNW: 292.5, NW: 315, NNW: 337.5
+        };
+
+        function cardinalToDegrees(cardinal) {
+            const upperCardinal = cardinal.toUpperCase();
+            return CARDINAL_DIRECTIONS[upperCardinal] ?? parseFloat(cardinal) ?? 0;
+        }
+
+        function calculateMidpointAngle(start, end) {
+            start = ((start % 360) + 360) % 360;
+            end = ((end % 360) + 360) % 360;
+            let diff = end - start;
+            if (diff < 0) diff += 360;
+            if (diff > 180) diff -= 360;
+            let midpoint = start + diff / 2;
+            return ((midpoint % 360) + 360) % 360;
+        }
+
+        function parseDirectionSingle(value) {
+            if (/^\d+(\.\d+)?$/.test(value)) return parseFloat(value);
+            return cardinalToDegrees(value);
+        }
+
+        function parseDirectionValue(value) {
+            if (!value) return 0;
+            if (value.includes('-') && value.indexOf('-') > 0) {
+                const parts = value.split('-');
+                if (parts.length === 2) {
+                    const start = parseDirectionSingle(parts[0].trim());
+                    const end = parseDirectionSingle(parts[1].trim());
+                    return calculateMidpointAngle(start, end);
+                }
+            }
+            return parseDirectionSingle(value);
+        }
+
+        function hasPlottableOrientation(orientationDegrees) {
+            if (!orientationDegrees) return false;
+            const values = orientationDegrees.split(';');
+            return values.some(value => {
+                const trimmed = value.trim();
+                if (trimmed.includes('-') && trimmed.indexOf('-') > 0) return true;
+                if (/^\d+(\.\d+)?$/.test(trimmed)) return true;
+                return CARDINAL_DIRECTIONS.hasOwnProperty(trimmed.toUpperCase());
+            });
+        }
+
+        function createSVGMarkers(directionStr) {
+            // Handles multiple dirs
+            const orientationValues = (directionStr || '')
+                .split(';')
+                .map(val => parseDirectionValue(val.trim()));
+
+            const fovPath = `
+                <path class="someSVGpath" d="M215.248,221.461L99.696,43.732C144.935,16.031 198.536,0 256,0C313.464,0 367.065,16.031 412.304,43.732L296.752,221.461C287.138,209.593 272.448,202.001 256,202.001C239.552,202.001 224.862,209.593 215.248,221.461Z" style="fill:rgb(87,87,87);fill-opacity:0.46;"/>
+                <path class="someSVGpath" d="M215.248,221.461L99.696,43.732C144.935,16.031 198.536,0 256,0C313.464,0 367.065,16.031 412.304,43.732L296.752,221.461C287.138,209.593 272.448,202.001 256,202.001C239.552,202.001 224.862,209.593 215.248,221.461ZM217.92,200.242C228.694,192.652 241.831,188.195 256,188.195C270.169,188.195 283.306,192.652 294.08,200.242C294.08,200.242 392.803,48.4 392.803,48.4C352.363,26.364 305.694,13.806 256,13.806C206.306,13.806 159.637,26.364 119.197,48.4L217.92,200.242Z" style="fill:rgb(137,135,135);"/>
+            `;
+
+            // Draw direction
+            const allDirectionsPath = orientationValues.map(degrees => `
+                <g style="transform:rotate(${degrees}deg); transform-origin: center;">
+                    ${fovPath}
+                </g>
+            `).join('');
+
+            return `
+                <svg class="svgMarker" width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+                    ${allDirectionsPath}
+                    <g transform="matrix(0.906623,0,0,0.906623,23.9045,22.3271)">
+                        <circle class="someSVGpath" cx="256" cy="256" r="57.821" style="fill:${MARKER_COLOR};fill-opacity:0.41;"/>
+                        <path class="someSVGpath" d="M256,174.25C301.119,174.25 337.75,210.881 337.75,256C337.75,301.119 301.119,337.75 256,337.75C210.881,337.75 174.25,301.119 174.25,256C174.25,210.881 210.881,174.25 256,174.25ZM256,198.179C224.088,198.179 198.179,224.088 198.179,256C198.179,287.912 224.088,313.821 256,313.821C287.912,313.821 313.821,287.912 313.821,256C313.821,224.088 287.912,198.179 256,198.179Z" style="fill:${MARKER_COLOR};"/>
+                    </g>
+                </svg>
+            `;
+        }
+
+        // Init map
+        const map = L.map('map').setView([32.7157, -117.1611], 11);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        const bbox = "32.5348,-117.3098,33.1142,-116.9082";
+        const overpassQuery = `
+            [out:json][timeout:25];
+            (
+                nwr["man_made"="surveillance"]["surveillance:type"="ALPR"](${bbox});
+                nwr["man_made"="surveillance"]["surveillance:type"="alpr"](${bbox});
+                nwr["surveillance"="alpr"](${bbox});
+            );
+            out center;
+        `;
+        const overpassUrl = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(overpassQuery)}`;
+
+        // Fetching from Overpass Turbo as of now
+        // This will be conducted in house as the backend is deployed
+        fetch(overpassUrl)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+
+                data.elements.forEach(element => {
+                    const lat = element.lat || (element.center && element.center.lat);
+                    const lon = element.lon || (element.center && element.center.lon);
+                    const tags = element.tags || {};
+
+                    if (!lat || !lon) return;
+
+                    const directionStr = tags['camera:direction'] || tags['direction'];
+                    let marker;
+
+                    if (hasPlottableOrientation(directionStr)) {
+                        // Draw svg marker
+                        const icon = L.divIcon({
+                            className: 'leaflet-data-marker',
+                            html: createSVGMarkers(directionStr),
+                            iconSize: [60, 60],
+                            iconAnchor: [30, 30],
+                            popupAnchor: [0, -10]
+                        });
+                        marker = L.marker([lat, lon], {icon}).addTo(map);
+                    } else {
+                        // Fallback circle if no direction is specified
+                        marker = L.circleMarker([lat, lon], {
+                            fill: true,
+                            fillColor: MARKER_COLOR,
+                            fillOpacity: 0.6,
+                            stroke: true,
+                            color: MARKER_COLOR,
+                            opacity: 1,
+                            radius: 8,
+                            weight: 3,
+                            className: 'someSVGpath'
+                        }).addTo(map);
+                    }
+
+                    // Simple popup containing tags on node selection
+                    let popupText = `<div style="font-family: sans-serif;"><b>ALPR Node</b><br/><br/>`;
+                    for (const [key, value] of Object.entries(tags)) {
+                        popupText += `<b>${key}</b>: ${value}<br/>`;
+                    }
+                    popupText += `</div>`;
+
+                    marker.bindPopup(popupText);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('loading').innerText = "Failed to load ALPR data.";
+            });
+    </script>
+</body>
+
+</html>
