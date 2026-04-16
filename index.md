@@ -7,7 +7,7 @@ layout: home
 
 We map Automatic License Plate Reader (ALPR) infrastructure and document how it impacts our privacy and civil liberties.
 
-[See the map; WIP]
+See the [map]({{site.baseurl}}/map/)
 
 ## ALPR Scanning
 
