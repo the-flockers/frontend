@@ -11,7 +11,6 @@ See the [map]({{site.baseurl}}/map/)
 
 <div>
 Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Diego.
-
 <script>
   fetch('https://theflockers.opencodingsociety.com/alpr/locations')
     .then(response => {
@@ -21,7 +20,6 @@ Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Di
     .then(data => {
       const features = data.features || data;
       const totalCameras = features.length;
-      
       document.getElementById('alpr-count').innerText = totalCameras.toLocaleString();
     })
     .catch(error => {
