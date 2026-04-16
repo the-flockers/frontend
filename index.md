@@ -9,6 +9,21 @@ We map Automatic License Plate Reader (ALPR) infrastructure and document how it 
 
 See the [map]({{site.baseurl}}/map/)
 
+Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Diego.
+
+<script>
+  fetch('https://theflockers.opencodingsociety.com/alpr/locations')
+    .then(response => response.json())
+    .then(data => {
+      const totalCameras = data.features.length;
+      document.getElementById('alpr-count').innerText = totalCameras.toLocaleString();
+    })
+    .catch(error => {
+      console.error("Error fetching camera count:", error);
+      document.getElementById('alpr-count').innerText = "many";
+    });
+</script>
+
 ## ALPR Scanning
 
 We are currently developing open-source software which can easily be run on the ESP32 microcontroller to scan for ALPRs. This scanning is done via BLE identification of ALPR hardware signatures, which has already been implemented by other groups (such as by [colonelpanichacks](https://github.com/colonelpanichacks/flock-you)), so this is really just a side project.
