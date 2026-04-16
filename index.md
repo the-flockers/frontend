@@ -13,9 +13,14 @@ Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Di
 
 <script>
   fetch('https://theflockers.opencodingsociety.com/alpr/locations')
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error("Network response was not ok");
+      return response.json();
+    })
     .then(data => {
-      const totalCameras = data.features.length;
+      const features = data.features || data;
+      const totalCameras = features.length;
+      
       document.getElementById('alpr-count').innerText = totalCameras.toLocaleString();
     })
     .catch(error => {
@@ -23,6 +28,7 @@ Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Di
       document.getElementById('alpr-count').innerText = "many";
     });
 </script>
+
 
 ## ALPR Scanning
 
