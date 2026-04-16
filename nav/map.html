@@ -28,6 +28,33 @@ permalink: /map/
             background: transparent;
             border: none;
         }
+
+        .alpr-popup {
+            font-family: sans-serif;
+            min-width: 180px;
+        }
+        .alpr-popup h3 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 4px;
+        }
+        .alpr-popup p {
+            margin: 4px 0;
+            font-size: 13px;
+            color: #555;
+        }
+        .alpr-popup .osm-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #0078A8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .alpr-popup .osm-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -74,30 +101,58 @@ permalink: /map/
                         let htmlContent = '';
                         if (rotation !== null) {
                             htmlContent = `
-                                <div style="transform: rotate(${rotation}deg); width: 24px; height: 24px;">
-                                    <svg viewBox="0 0 24 24" width="24" height="24">
-                                        <path d="M12 2L22 20L12 16L2 20Z" fill="#dc2626" stroke="white" stroke-width="1.5" />
+                                <div style="transform: rotate(${rotation}deg); transform-origin: 32px 48px; width: 64px; height: 64px;">
+                                    <svg viewBox="0 0 64 64" width="64" height="64">
+                                        <!-- FOV -->
+                                        <path d="M32 48 L12 16 Q32 0 52 16 Z" fill="rgba(220, 38, 38, 0.3)" stroke="rgba(220, 38, 38, 0.8)" stroke-width="1.5" />
+
+                                        <!-- Camera Dot -->
+                                        <circle cx="32" cy="48" r="7" fill="#dc2626" stroke="white" stroke-width="2" />
                                     </svg>
                                 </div>`;
                         } else {
-                            htmlContent = `<div style="width: 14px; height: 14px; background-color: #f97316; border: 2px solid white; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.4);"></div>`;
+                            htmlContent = `<div style="width: 14px; height: 14px; background-color: #dc2626; border: 2px solid white; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.4);"></div>`;
                         }
 
                         const customIcon = L.divIcon({
                             html: htmlContent,
                             className: 'custom-alpr-marker',
-                            iconSize: rotation !== null ? [24, 24] : [14, 14],
-                            iconAnchor: rotation !== null ? [12, 12] : [7, 7]
+                            iconSize: rotation !== null ? [64, 64] : [18, 18],
+                            iconAnchor: rotation !== null ? [32, 48] : [9, 9],
+                            // Popups should emerge from the camera dot
+                            popupAnchor: rotation !== null ? [0, -8] : [0, -9]
                         });
 
                         // Create the marker
                         const marker = L.marker(latlng, {icon: customIcon});
+                        // Extract tags
+                        const operator = tags['operator'] || 'Unknown';
+                        const manufacturer = tags['manufacturer'] || tags['brand'] || 'Unknown';
+                        let osmIdStr = feature.id || tags['@id'] || '';
 
-                        // Add popup
-                        let popupText = `<b>ALPR Camera</b><br/>`;
-                        if (tags.operator) popupText += `Operator: ${tags.operator}<br/>`;
-                        if (directionStr) popupText += `Direction: ${directionStr}&deg;`;
-                        marker.bindPopup(popupText);
+                        let popupHTML = `
+                            <div class="alpr-popup">
+                                <h3>ALPR</h3>
+                                <p><strong>Operator:</strong> ${operator}</p>
+                                <p><strong>Manufacturer:</strong> ${manufacturer}</p>
+                        `;
+
+                        // If ID good, add OSM link
+                        if (osmIdStr) {
+                            // Ensure the string starts with node/, way/, or relation/
+                            let osmId = String(osmIdStr).replace('@', '');
+
+                            // If it's just raw numbers, default to node
+                            if (!isNaN(osmId)) {
+                                osmId = `node/${osmId}`;
+                            }
+
+                            popupHTML += `<a href="https://www.openstreetmap.org/${osmId}" target="_blank" class="osm-link">View on OpenStreetMap &rarr;</a>`;
+                        }
+
+                        popupHTML += `</div>`;
+
+                        marker.bindPopup(popupHTML);
 
                         return marker;
                     }
