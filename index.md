@@ -9,6 +9,7 @@ We map Automatic License Plate Reader (ALPR) infrastructure and document how it 
 
 See the [map]({{site.baseurl}}/map/)
 
+<div>
 Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Diego.
 
 <script>
@@ -28,6 +29,7 @@ Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Di
       document.getElementById('alpr-count').innerText = "many";
     });
 </script>
+</div>
 
 
 ## ALPR Scanning
