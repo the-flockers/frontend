@@ -3,6 +3,14 @@ title: Home
 layout: home
 ---
 
+# ALPRs
+
+Automatic License Plate Readers (ALPRs) are cameras -- usually developed by private companies to **skirt constitutional protections** -- that capture and analyze images of _all_ captured vehicles in a dragnet surveillance system. Data inclues identifying data such as location, date, time, make, model, color, dents, stickers, etc. which are accumululated into massive, searchable databases.
+
+This suveillance is conducted **without warrants** and in direct violation of the **fourth amendment**, supported by private companies which derive profits from building mass surveillance systems.
+
+_Functionally, this is the same as placing a tracker in every vehicle within the United States to track their movement._
+
 # Tracking the spread of ALPR Surveillance
 
 We map Automatic License Plate Reader (ALPR) infrastructure and document how it impacts our privacy and civil liberties.
@@ -28,12 +36,3 @@ Currently, <strong id="alpr-count">...</strong> ALPRs have been mapped in San Di
     });
 </script>
 </div>
-
-
-## ALPR Scanning
-
-We are currently developing open-source software which can easily be run on the ESP32 microcontroller to scan for ALPRs. This scanning is done via BLE identification of ALPR hardware signatures, which has already been implemented by other groups (such as by [colonelpanichacks](https://github.com/colonelpanichacks/flock-you)), so this is really just a side project.
-
-## Why?
-
-ALPR systems, in their current and future standing, are systems explicitly intended for mass surveillance. That is, their intention is to track the movement of people to aid in the development of a surveillance state. Without fighting back, we allow these oppressive forces to proliferate and infringe upon our freedoms. It's high time to resist this bipartisan, authoritarian push for surveillance.
