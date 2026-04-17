@@ -21,10 +21,15 @@
 title: DeFlock SD
 # email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Local DeFlock San Diego chapter. Document ALPR component of the surveillance state.
+  Local DeFlock San Diego chapter. Document ALPR component of the surveillance
+  state.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  the-flockers
+github_username: the-flockers
+
+api_base_url:
+  development: "http://127.0.0.1:5000"
+  production: "https://theflockers.opencodingsociety.com"
 
 # Build settings
 theme: jekyll-theme-console

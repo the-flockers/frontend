@@ -33,6 +33,7 @@ permalink: /map/
             font-family: sans-serif;
             min-width: 180px;
         }
+
         .alpr-popup h3 {
             margin: 0 0 8px 0;
             font-size: 16px;
@@ -40,11 +41,13 @@ permalink: /map/
             border-bottom: 1px solid #eee;
             padding-bottom: 4px;
         }
+
         .alpr-popup p {
             margin: 4px 0;
             font-size: 13px;
             color: #555;
         }
+
         .alpr-popup .osm-link {
             display: inline-block;
             margin-top: 10px;
@@ -52,6 +55,7 @@ permalink: /map/
             text-decoration: none;
             font-weight: bold;
         }
+
         .alpr-popup .osm-link:hover {
             text-decoration: underline;
         }
@@ -81,7 +85,7 @@ permalink: /map/
         }
 
         // Fetch most recent ALPR locations file
-        fetch('https://theflockers.opencodingsociety.com/alpr/locations')
+        fetch('{{ site.api_base_url[jekyll.environment] }}/alpr/locations')
             .then(response => response.json())
             .then(geojsonData => {
                 // process data
