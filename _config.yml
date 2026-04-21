@@ -24,7 +24,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Local DeFlock San Diego chapter. Document ALPR component of the surveillance
   state.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://deflock.opencodingsociety.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: the-flockers
 
 api_base_url:
@@ -38,7 +38,7 @@ plugins:
   - jekyll-feed
 
 header_pages:
-  - index.md
+  - index.html
   - nav/about.md
   - nav/learn.md
 
@@ -66,3 +66,6 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
+
+csp_extra: "connect-src 'self' http://127.0.0.1:5000
+  https://theflockers.opencodingsociety.com;"

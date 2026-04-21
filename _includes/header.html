@@ -1,0 +1,25 @@
+{%- assign default_paths = site.html_pages | map: 'path' -%}
+{%- assign page_paths = site.header_pages | default: default_paths -%}
+<header>
+  <div class="menu">
+    <div class="menu-container">
+      <div class="menu-left">
+        <!-- Place DeFlock SD on left -->
+        <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title | escape }}</a>
+      </div>
+      <div class="menu-right">
+        <ul>
+          {%- for path in page_paths -%}
+            {%- assign my_page = site.pages | where: "path", path | first -%}
+            <!-- Skip the Home link since we already put it on the left -->
+            {%- if my_page.title and my_page.title != "Home" -%}
+            <li>
+              <a href="{{ my_page.url | relative_url }}"{% if page.url == my_page.url %} aria-current="page"{% endif %}>{{ my_page.title | escape }}</a>
+            </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>

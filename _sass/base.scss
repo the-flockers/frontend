@@ -4,8 +4,8 @@
  * Style variables
  */
 $base-font-family:     'Source Code Pro', monospace !default;
-$base-font-size:       12.5px !default;
-$mobile-font-size:     12px !default;
+$base-font-size:       18px !default;
+$mobile-font-size:     18px !default;
 $base-line-height:     1.5 !default;
 $container-width:      80% !default;
 $container-max-width:  1000px !default;
@@ -14,7 +14,13 @@ $container-max-width:  1000px !default;
  * Global
  */
 body { background-color: var(--background-color);  margin: 0 auto;  padding: 0;  font-family: $base-font-family;  font-size: $base-font-size;  color: var(--text-color);  text-align: left;  line-height: $base-line-height !important; }
-h1, h2, h3, h4, h5, h6 { font-size: $base-font-size;  margin: 0px;  margin-top: 22px;  font-weight: bold;  color: var(--text-color); }
+h1, h2, h3, h4, h5, h6 { margin: 0px;  margin-top: 22px;  font-weight: bold;  color: var(--text-color); }
+h1 { font-size: 2em; }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.4em; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1.1em; }
+h6 { font-size: 1em; }
 p, ul, ol { margin: 0px;  color: var(--text-color); }
 a { text-decoration: underline;  color: var(--link-color); }
 a:hover { color: var(--background-color); background-color: var(--base-color); }
@@ -26,7 +32,7 @@ a:hover { color: var(--background-color); background-color: var(--base-color); }
 .container { width: $container-width;  max-width: $container-max-width;  margin-right: auto;  margin-left: auto; }
 p { word-wrap: break-word;  word-break: break-word;  white-space: pre-wrap; margin-bottom: 15px; }
 footer { color: var(--text-color);  border-top: var(--border);  margin: 20px auto 15px;  padding-top: 10px;  text-align: right; }
-header { margin-top: 25px;  margin-bottom: 10px; }
+header { margin-top: 0px;  margin-bottom: 0px; position: sticky; top: 0; z-index: 1000;}
 header p { text-align: left;  margin: 0; }
 footer { margin-bottom: 20px; }
 
@@ -46,11 +52,76 @@ footer { margin-bottom: 20px; }
 /**
  * Header/Navigation
  */
-.menu { border-top: var(--border);  border-bottom: var(--border);  margin-bottom: 25px; }
-.menu ul { margin-top: 12px;  margin-bottom: 12px;  padding-left: 0px;  list-style-type: none;  text-align: right; }
-.menu ul li { display: inline;  margin-left: 10px; }
-.menu ul li a { text-decoration: none;  color: var(--text-color); }
-.menu ul li a:hover { text-decoration: none; color: var(--background-color); background-color: var(--base-color); }
+.menu {
+  border: none;
+  background-color: var(--background-color);
+  margin-bottom: 0px;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.menu-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100vw;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 40px; /* Gives it 40px of breathing room from the extreme left/right screen edges */
+  box-sizing: border-box;
+}
+
+/* Site Title styling */
+.menu-left .site-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 5px 10px;
+}
+
+.menu-left .site-title:hover {
+  text-decoration: none;
+  color: var(--background-color);
+  background-color: var(--base-color);
+}
+
+.menu-right ul {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 0;
+  list-style-type: none;
+}
+
+.menu-right ul li {
+  margin-left: 10px;
+}
+
+.menu-right ul li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1.2rem;
+  padding: 10px 15px;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.menu-right ul li a:hover {
+  text-decoration: none;
+  color: var(--background-color);
+  background-color: var(--base-color);
+}
+
+.menu-right ul li::before {
+  content: none !important;
+}
 
 /**
  * Form
