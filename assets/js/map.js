@@ -51,17 +51,17 @@ document.addEventListener("DOMContentLoaded", () => {
             wrapper.style.transform = `rotate(${rotation}deg)`;
 
             wrapper.innerHTML = `
-                            <svg viewBox="0 0 64 64" width="64" height="64">
-                                <path d="M32 48 L12 16 Q32 0 52 16 Z"
-                                      fill="rgba(220, 38, 38, 0.3)"
-                                      stroke="rgba(220, 38, 38, 0.8)"
-                                      stroke-width="1.5" />
-                                <circle cx="32" cy="48" r="7"
-                                        fill="#dc2626"
-                                        stroke="white"
-                                        stroke-width="2" />
-                            </svg>
-                        `;
+              <svg viewBox="0 0 64 64" width="64" height="64">
+                <path d="M32 48 L12 16 Q32 0 52 16 Z"
+                      fill="rgba(220, 38, 38, 0.3)"
+                      stroke="rgba(220, 38, 38, 0.8)"
+                      stroke-width="1.5" />
+                <circle cx="32" cy="48" r="7"
+                        fill="#dc2626"
+                        stroke="white"
+                        stroke-width="2" />
+              </svg>
+            `;
 
             htmlElement = wrapper;
           } else {
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           const customIcon = L.divIcon({
-            html: htmlElement.outerHTML,
+            html: htmlElement,
             className: 'custom-alpr-marker',
             iconSize: rotation !== null ? [64, 64] : [18, 18],
             iconAnchor: rotation !== null ? [32, 48] : [9, 9],
