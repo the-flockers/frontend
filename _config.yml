@@ -40,7 +40,7 @@ plugins:
 header_pages:
   - index.html
   - nav/about.md
-  - nav/learn.md
+  - nav/learn.html
 
 disable_google_fonts: true
 
