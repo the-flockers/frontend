@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const mapEl = document.getElementById("map");
+  const apiBase = mapEl.dataset.apiBase;
   const map = L.map('map').setView([32.7157, -117.1611], 11);
 
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return degrees !== undefined ? degrees : null;
   }
 
-  fetch('{{ site.api_base_url[jekyll.environment] }}/alpr/locations')
+  fetch(`${apiBase}/alpr/locations`)
     .then(res => res.json())
     .then(geojsonData => {
 
