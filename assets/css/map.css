@@ -1,0 +1,74 @@
+---
+---
+
+/* Ensure full viewport map */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#map {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Marker container */
+.custom-alpr-marker {
+    background: transparent;
+    border: none;
+}
+
+/* Rotated camera wrapper */
+.alpr-rotated {
+    transform-origin: 32px 48px;
+    width: 64px;
+    height: 64px;
+}
+
+/* Dot marker (no direction) */
+.alpr-dot {
+    width: 14px;
+    height: 14px;
+    background-color: #dc2626;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Popup styling */
+.alpr-popup {
+    font-family: sans-serif;
+    min-width: 180px;
+}
+
+.alpr-popup h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+}
+
+.alpr-popup p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.alpr-popup .osm-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #0078A8;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.alpr-popup .osm-link:hover {
+    text-decoration: underline;
+}

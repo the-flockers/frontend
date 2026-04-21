@@ -1,6 +1,6 @@
 venv/
-vendor/
 .bundle/
+vendor/bundle/
 .jekyll-cache/
 *.lock
 _site/

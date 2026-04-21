@@ -1,0 +1,19 @@
+---
+layout: default
+---
+
+{% comment %}
+This content gets injected into default.html via {{ content }}
+{% endcomment %}
+
+{% assign css = page.extra_css | default: empty %}
+{% for c in css %}
+<link rel="stylesheet" href="{{ c | relative_url }}">
+{% endfor %}
+
+{{ content }}
+
+{% assign js = page.extra_js | default: empty %}
+{% for j in js %}
+<script src="{{ j | relative_url }}"></script>
+{% endfor %}
