@@ -8,6 +8,9 @@ permalink: /risks/
 
 ## What is ALPR?
 
+![ALPR Camera System](/assets/images/alpr-camera.jpg)
+*Typical ALPR camera mounted on solar panel for pervasive street surveillance*
+
 Automated License Plate Recognition (ALPR) technology uses optical character recognition (OCR) to read vehicle license plates from images or video feeds. Systems like Flock Safety have deployed thousands of cameras across U.S. municipalities, creating a pervasive surveillance infrastructure that captures and logs every vehicle's movements.
 
 ## The Core Threats
@@ -77,6 +80,8 @@ ALPR systems generate false positives, leading to serious consequences:
 - **Expired data**: Plates remain flagged long after vehicles are recovered
 - **Similar plates**: Misreadings occur, particularly with obscured or unusual plates
 - **No accountability**: Victims have limited recourse when wrongly targeted
+
+**Real-world example of ALPR failures:** In 2023, an Aurora, Colorado family was held at gunpoint during a traffic stop based on a false ALPR match. The system incorrectly flagged their vehicle as stolen, resulting in a traumatic armed police encounter. This incident demonstrates how ALPR errors can have devastating consequences, even leading to wrongful detention and injury. [Read the full Guardian investigation →](https://www.theguardian.com/us-news/2024/feb/06/aurora-settlement-black-family-held-gunpoint-police)
 
 ### 8. **Discriminatory Enforcement**
 
