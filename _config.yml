@@ -41,6 +41,7 @@ header_pages:
   - index.html
   - nav/about.md
   - nav/learn.html
+  - nav/contribute.html
 
 disable_google_fonts: true
 

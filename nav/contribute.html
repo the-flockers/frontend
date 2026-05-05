@@ -1,0 +1,70 @@
+---
+layout: page
+title: Contribute
+---
+
+<link rel="stylesheet" href="{{ '/assets/css/contribute.css' | relative_url }}">
+
+<div class="content">
+    <h1>Submit Camera Locations</h1>
+    <p>Found a camera you'd like to submit? The process to contribute to the DeFlock SD is very simple.</p>
+
+    <details>
+        <summary>1. Open an <a href="https://www.openstreetmap.org/">OpenStreetMap</a> account</summary>
+        <p><i>ALPR location data is sourced from OpenStreetMap</i></p>
+    </details>
+    <br>
+    <details>
+        <summary>2. Find the location you want to report on the map</summary>
+        <p><i>You'll be editing what's in your viewbox on the map</i></p>
+    </details>
+    <br>
+    <details>
+        <summary>3. Add the location</summary>
+        <ul>
+            <li>Select the <b>Edit</b> option in the top left</li>
+            <li>Add a <b>Point</b> feature</li>
+            <li>Insert <b>Tags</b></li>
+        </ul>
+        <br>
+        <div class="tag-item">
+            <img src="/assets/images/flock-alpr-1.jpg" alt="Flock Camera">
+
+            <div class="tag-content">
+                <h2>Flock</h2>
+                <code class="code-block">man_made=surveillance
+surveillance:type=ALPR
+surveillance=public
+camera:type=fixed
+surveillance:zone=traffic
+manufacturer=Flock Safety
+manufacturer:wikidata=Q108485435</code>
+            </div>
+        </div>
+        <hr><br>
+        <div class="tag-item">
+            <img src="/assets/images/ubicquia-1.jpg" alt="Ubicquia camera">
+        
+            <div class="tag-content">
+                <h2>Ubicquia</h2>
+                <code class="code-block">man_made=surveillance
+surveillance:type=ALPR
+surveillance=public
+camera:type=fixed
+surveillance:zone=traffic
+manufacturer=Ubicquia, Inc.
+manufacturer:wikidata=Q138313103</code>
+            </div>
+        </div>
+    </details>
+    <br>
+    <details>
+        <summary>4. Add a direction</summary>
+        <p><i>Directions are described in degrees like 190. If there are multiple cameras mounted at a single location, you can denote it with a semicolon (;): 190;220</i></p>
+    </details>
+    <br>
+    <details>
+        <summary>5. Submit your changes</summary>
+        <p><i>Select the <b>Save</b> option, and you're all set!</i></p>
+    </details>
+</div>
