@@ -28,7 +28,7 @@ url: "https://deflock.opencodingsociety.com" # the base hostname & protocol for 
 github_username: the-flockers
 
 api_base_url:
-  development: "http://127.0.0.1:5000"
+  development: "http://127.0.0.1:8422"
   production: "https://theflockers.opencodingsociety.com"
 
 # Build settings
@@ -67,5 +67,5 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
 
-csp_extra: "connect-src 'self' http://127.0.0.1:5000
+csp_extra: "connect-src 'self' http://127.0.0.1:8422
   https://theflockers.opencodingsociety.com;"

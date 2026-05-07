@@ -9,4 +9,11 @@ extra_js:
     - /assets/js/map.js
 ---
 
+<div class="routing-panel">
+    <h4>Find Route</h4>
+    <input type="text" id="route-start" placeholder="Start (e.g. 32.71, -117.16)" />
+    <input type="text" id="route-end" placeholder="End (e.g. 32.75, -117.20)" />
+    <button id="route-btn">Get Route</button>
+</div>
+
 <div id="map" data-api-base="{{ site.api_base_url[jekyll.environment] }}"></div>

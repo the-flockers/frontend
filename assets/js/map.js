@@ -24,6 +24,78 @@ document.addEventListener("DOMContentLoaded", () => {
     return degrees !== undefined ? degrees : null;
   }
 
+  // Routing logic
+  let routeLayer = null; // store route layer to remove previous
+
+  const routeBtn = document.getElementById("route-btn");
+  routeBtn.addEventListener("click", () => {
+    const startCoords = document.getElementById("route-start").value.trim();
+    const endCoords = document.getElementById("route-end").value.trim();
+
+    if (!startCoords || !endCoords) {
+      alert("Please enter both start and end coordinates.");
+      return;
+    }
+
+    const startArr = startCoords.split(',').map(c => parseFloat(c.trim()));
+    const endArr = endCoords.split(',').map(c => parseFloat(c.trim()));
+
+    if (startArr.length !== 2 || endArr.length !== 2 || startArr.some(isNaN) || endArr.some(isNaN)) {
+      alert("Invalid coordinate format. Please use 'lat, lng'.");
+      return;
+    }
+
+    // Disable the button while loading
+    routeBtn.disabled = true;
+    routeBtn.innerText = "Loading...";
+
+    const routeUrl = `${apiBase}/ors/directions`;
+
+    fetch(routeUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        coordinates: [
+          [startArr[1], startArr[0]],
+          [endArr[1], endArr[0]]
+        ]
+      })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch route");
+        return res.json();
+      })
+      .then(geojsonData => {
+        if (routeLayer) {
+          map.removeLayer(routeLayer);
+        }
+
+        // Draw the route
+        routeLayer = L.geoJSON(geojsonData, {
+          style: {
+            color: '#3b82f6',
+            weight: 5,
+            opacity: 0.8
+          }
+        }).addTo(map);
+
+        // Adjust map bounds to show whole route
+        if (routeLayer.getBounds().isValid()) {
+          map.fitBounds(routeLayer.getBounds(), { padding: [30, 30] });
+        }
+      })
+      .catch(err => {
+        console.error("Error loading route data: ", err);
+        alert("Failed to load route. Check console for details.");
+      })
+      .finally(() => {
+        routeBtn.disabled = false;
+        routeBtn.innerText = "Get Route";
+      });
+  });
+
   fetch(`${apiBase}/alpr/locations`)
     .then(res => res.json())
     .then(geojsonData => {
