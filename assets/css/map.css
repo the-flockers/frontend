@@ -1,5 +1,4 @@
----
----
+--- ---
 
 /* Ensure full viewport map */
 html,
@@ -75,36 +74,101 @@ body {
 }
 
 /* Routing Panel */
-.route-control-panel {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
+.route-control-container {
     background: white;
-    padding: 15px;
-    border-radius: 6px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+    font-family: sans-serif;
+    width: 280px;
+    position: relative;
+    cursor: auto;
+}
+
+.route-header {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.route-header:after {
+    content: '▼';
+    font-size: 12px;
+}
+
+.route-control-container.collapsed .route-header:after {
+    content: '▲';
+}
+
+.route-body {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    font-family: sans-serif;
-    width: 250px;
+    gap: 12px;
+    margin-top: 10px;
 }
 
-.route-control-panel h4 {
-    margin: 0;
-    font-size: 16px;
-    color: #333;
+.route-control-container.collapsed .route-body {
+    display: none;
 }
 
-.route-control-panel input {
-    padding: 8px;
+.route-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+}
+
+.route-input-group input {
+    padding: 6px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 13px;
 }
 
-.route-control-panel button {
+.autocomplete-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 2000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.autocomplete-results.active {
+    display: block;
+}
+
+.autocomplete-item {
+    padding: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.autocomplete-item:hover {
+    background: #f0f0f0;
+}
+
+.route-options {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.route-btn {
     padding: 8px;
     background-color: #0078A8;
     color: white;
@@ -115,6 +179,11 @@ body {
     transition: background-color 0.2s;
 }
 
-.route-control-panel button:hover {
+.route-btn:hover {
     background-color: #005a7d;
+}
+
+.route-btn:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
 }

@@ -68,4 +68,4 @@ exclude:
   - vendor/ruby/
 
 csp_extra: "connect-src 'self' http://127.0.0.1:8422
-  https://theflockers.opencodingsociety.com;"
+  https://theflockers.opencodingsociety.com https://nominatim.openstreetmap.org;"
