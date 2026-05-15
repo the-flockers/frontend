@@ -263,18 +263,49 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (relevantAlprs.length > 0) {
+        // Project coords into meters
+        const projectPoint = (lon, lat, distance, bearing) => {
+          const R = 6378137; // Earth radius (m)
+          const rad = Math.PI / 180;
+          const lat1 = lat * rad;
+          const lon1 = lon * rad;
+          const brng = bearing * rad;
+
+          const lat2 = Math.asin(Math.sin(lat1) * Math.cos(distance / R) + Math.cos(lat1) * Math.sin(distance / R) * Math.cos(brng));
+          const lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(distance / R) * Math.cos(lat1), Math.cos(distance / R) - Math.sin(lat1) * Math.sin(lat2));
+
+          return [lon2 / rad, lat2 / rad];
+        };
+
         const avoidPolygons = {
           type: "MultiPolygon",
           coordinates: relevantAlprs.map(f => {
             const [lng, lat] = f.geometry.coordinates;
-            const offset = 0.0015;
-            return [[
-              [lng - offset, lat - offset],
-              [lng + offset, lat - offset],
-              [lng + offset, lat + offset],
-              [lng - offset, lat + offset],
-              [lng - offset, lat - offset]
-            ]];
+            const tags = f.properties || {};
+            const rotation = getRotationDegrees(tags['camera:direction'] || tags['direction'])
+            // Smart streetlight ALPRs are vendored by Ubicquia
+            const isSmartStreetLight = tags['manufacturer']?.toLowerCase() === 'Ubicquia';
+
+            if (rotation !== null && !isSmartStreetLight) {
+              // assume directional cone (60 deg fov, extend 40 m)
+              const dist = 40;
+              const fov = 60;
+              const p1 = [lng, lat];
+              const p2 = projectPoint(lng, lat, dist, rotation - fov / 2);
+              const p3 = projectPoint(lng, lat, dist, rotation + fov / 2);
+
+              return [[p1, p2, p3, p1]];
+            } else {
+              // assume omnidirectional (25 m)
+              const dist = 25;
+              const pts = [];
+              for (let i = 0; i < 8; i++) {
+                pts.push(projectPoint(lng, lat, dist, i * 45));
+              }
+              pts.push(pts[0]); // close polygon
+
+              return [pts];
+            }
           })
         };
 
