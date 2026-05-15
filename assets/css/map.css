@@ -1,4 +1,5 @@
---- ---
+---
+---
 
 /* Ensure full viewport map */
 html,
@@ -166,6 +167,16 @@ body {
     font-size: 13px;
     cursor: pointer;
     user-select: none;
+}
+
+.route-checkbox {
+    appearance: auto;
+    -webkit-appearance: auto;
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #0078A8;
 }
 
 .route-btn {

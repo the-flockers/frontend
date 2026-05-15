@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div id="route-end-results" class="autocomplete-results"></div>
                   </div>
                   <label class="route-options">
-                    <input type="checkbox" id="route-avoid-alpr" style="display:inline-block; appearance:auto; width:auto; margin-right:5px;"/> Avoid ALPRs
+                    <input type="checkbox" id="route-avoid-alpr" class="route-checkbox" /> Avoid ALPRs
                   </label>
                   <button id="route-btn" class="route-btn">Get Route</button>
                 </div>
